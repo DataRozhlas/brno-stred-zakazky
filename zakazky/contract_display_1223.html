@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="QCM, s.r.o." />
+    <title>Veřejné zakázky - E-ZAK Brno-střed</title>
+
+    <script type="text/javascript" src="https://zakazky.brno-stred.cz/js/jquery.min.js?4.13.0"></script>
+    <script type="text/javascript">
+      var mainStrings = {
+        ERR_DATA_INSERT_FAILED: 'Nepodařilo se načíst data!',
+        ERR_PROLONG_SESSION_FAILED: 'Nepodařilo se prodloužit sezení, proveďte nějakou akci, jinak dojde k odhlášení!',
+        INFO_END_OF_SESSION: '!!! Blíží se konec Vašeho sezení !!!',
+        CHOSEN_DESELECT: 'odstranit',
+        CHOSEN_NOT_FOUND: 'Nenalezeno',
+        CHOSEN_CHOOSE: 'Vyberte',
+        CHOSEN_ALL_SELECT_TO_RESTRICT: 'Vše, pro omezení vyberte...',
+        WAITING_SUBMIT_DEFAULT_TEXT: 'Probíhá přenos dat',
+        WAITING_LOAD_DEFAULT_TEXT: 'Probíhá načítání dat'
+      };
+    </script>
+    <script type="text/javascript" src="https://zakazky.brno-stred.cz/js/main.js?4.13.0"></script>
+    <script type="text/javascript" src='https://zakazky.brno-stred.cz/js/jquery.titlealert.js?4.13.0'></script>
+    <script type="text/javascript" src='https://zakazky.brno-stred.cz/js/init.js?4.13.0'></script>
+
+
+      <link href="https://zakazky.brno-stred.cz/theme/images/favicon.ico" rel="SHORTCUT ICON" />
+
+      <link rel="stylesheet" href="https://zakazky.brno-stred.cz/theme/styles/main.css?4.13.0" type="text/css" media="screen, projection" />
+
+          <link rel="stylesheet" href="https://zakazky.brno-stred.cz/theme/styles/print.css?4.13.0" type="text/css" media="print" />
+    
+    
+    
+    <link href='https://zakazky.brno-stred.cz/js/qtip2/jquery.qtip.min.css?4.13.0' rel='stylesheet' />
+    <script type="text/javascript" src='https://zakazky.brno-stred.cz/js/qtip2/jquery.qtip.min.js?4.13.0'></script>
+
+    <link href='https://zakazky.brno-stred.cz/js/chosen/chosen.css?4.13.0' rel='stylesheet' />
+    <script type="text/javascript" src='https://zakazky.brno-stred.cz/js/chosen/chosen.jquery.js?4.13.0'></script>
+
+    
+    <script type="text/javascript">
+      initChosens();
+      initFormWaitings();
+      initAutofocusedInputs();
+          initQTip();
+    </script>
+    
+<script type="text/javascript">
+
+  /**
+   * Zobrazí modalbox ve stylu JS alertu
+   *
+   * @param {String} message - musí se předávat oescapované
+   * @param {String} type [MESSAGE_TYPE_WARNING, MESSAGE_TYPE_INFO, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_RECOMMEND]
+   * @param {String} customTitle
+   */
+  function alertModal(message, type, customTitle) {
+    var modalContent = $('  <div>    <div class="modalTitle"></div>    <fieldset>      <div id="modalAlertContent"></div>      <div class="center">        <a href="#" onclick="return modalWindowHide();" class="button-create">OK</a>      </div>    </fieldset>  </div>');
+    switch (type) {
+      case MESSAGE_TYPE_INFO:
+        modalContent.find('fieldset').addClass('info_msg');
+        modalContent.find('.modalTitle').html('Info');
+        break;
+      case MESSAGE_TYPE_ERROR:
+        modalContent.find('fieldset').addClass('err_msg');
+        modalContent.find('.modalTitle').html('Chyba');
+        break;
+      case MESSAGE_TYPE_SUCCESS:
+        modalContent.find('fieldset').addClass('succ_msg');
+        modalContent.find('.modalTitle').html('Info');
+        break;
+      case MESSAGE_TYPE_RECOMMEND:
+        modalContent.find('fieldset').addClass('recommend_msg');
+        modalContent.find('.modalTitle').html('Doporučení');
+        break;
+      default:
+        modalContent.find('fieldset').addClass('warn_msg');
+        modalContent.find('.modalTitle').html('Upozornění');
+        break;
+    }
+    if (typeof customTitle != 'undefined') {
+      modalContent.find('.modalTitle').html(customTitle);
+    }
+    modalContent.find("#modalAlertContent").html(message);
+    modalWindowSetContent(modalContent);
+    return modalWindowSmallestShow();
+  }
+</script>
+
+        <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29657388-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    
+  </head>
+
+  <body id="brno">
+  <div id="page">
+    <div id="head">
+      <p class="hidden">
+        <a href="#cnt" title="Přejít na obsah [klávesová zkratka Alt+S]" accesskey="s">obsah</a> |
+        <a href="#foot" title="Přejít na zápatí">zápatí</a>
+      </p>
+
+      <a id="nav" title="Navigace"></a>
+      <div id="head-title">
+        <h1><a href="/" title="Statutární město Brno, městská část Brno-střed" tabindex="1"><span id="erb" >Statutární město Brno, městská část Brno-střed</span></a></h1>
+        <a href="http://www.ezak.cz" class="ezak_logo"><span class="hidden">www.ezak.cz</span></a>
+      </div>
+
+      
+
+    </div>
+
+    <div id="body">
+
+        <div id="menu-left">
+
+            <div id="pro-verejnost" class="hmenu">Pro veřejnost</div>
+  <ul class="menu">
+          <li ><a href="profile_index.html" title="přehled profilů zadavatelů">Profily zadavatelů</a></li>
+          <li ><a href="agreement_index.html" title="přehled smluv">Registr smluv</a></li>
+          <li ><a href="registrace_warning.html" title="upozorňování na nové VZ e-mailem">Upozorňování na nové VZ</a></li>
+    
+  </ul>
+
+            <div id="zadavaci-rizeni" class="hmenu">Zadávací řízení</div>
+  <ul class="menu">
+          <li ><a href="advice_index.html" title="přehled předběžných oznámení">Předběžná oznámení</a></li>
+          <li class="active"><a href="contract_index.html" title="přehled veřejných zakázek">Veřejné zakázky</a></li>
+          <li ><a href="contract_search.html" title="rozšířené vyhledávání">Vyhledávání</a></li>
+    
+  </ul>
+
+          
+          
+          
+          
+          
+  <div id="prihlaseni" class="hmenu">Přihlášení</div>
+  <form action="auth_login.html" method="post" enctype="multipart/form-data" class="menu-1">
+    <input type="hidden" name="redirect" value="/contract_display_1223.html" />
+    <div id="login-form">
+      <label for="login-user">Uživatel:</label> <input name="login" id="login-user" type="text" /><br class="cleaner" />
+      <label for="login-passw">Heslo:</label> <input name="password" id="login-passw" type="password" />
+      <input type="submit" id="login-submit" value="OK" />
+              <div id="login-sso-area">
+                                <p>
+              <a id="login-sso" href="/sp/login/contractor/?url=%2Fcontract_display_1223.html" title="přihlášení pomocí služby Single sign-on pro dodavatele">
+                FEN&nbsp;CDD&nbsp;přihlášení
+              </a>
+            </p>
+                  </div>
+            <div class="cleaner"></div>
+    </div>
+  </form>
+
+
+            <div id="registrace" class="hmenu">Registrace</div>
+  <ul class="menu-2">
+    <li>
+      <a title="test nastavení prohlížeče" href="test_index.html">Test nastavení prohlížeče</a>
+    </li>
+    <li>
+      <a title="zapomenuté heslo" href="registrace_forgotpasswd.html">Zapomenuté heslo</a>
+    </li>
+    <li>
+      <a title="registrace dodavatele" href="registrace.html">Registrovat dodavatele</a>
+    </li>
+  </ul>
+
+          
+    
+
+    
+
+    
+
+    
+  </div>
+
+  <script type="text/javascript">
+
+    var menuFunctions = {
+      setUnreadMessagesCounts: function () {
+        $.ajax({
+          type: "POST",
+          url: "message_unreadCounts.html",
+          dataType: "json",
+          async: true,
+          success: function (response) {
+            menuFunctions.setUnreadMessagesData(response);
+          },
+          error: function () {
+            menuFunctions.setUnreadMessagesData({});
+          }
+        });
+      },
+      setUnreadMessagesData: function (data) {
+        var messagesCountElem = $("#messagesIncomingCount");
+        var cMessagesCountElem = $("#cmessagesIncomingCount");
+        if (jQuery.isEmptyObject(data) || typeof data.messages == "undefined" || data.messages == 0) {
+          messagesCountElem.html(null);
+        } else {
+          messagesCountElem.html("(" + data.messages + ")");
+        }
+        if (jQuery.isEmptyObject(data) || typeof data.cmessages == "undefined" || data.cmessages == 0) {
+          cMessagesCountElem.html(null);
+        } else {
+          cMessagesCountElem.html("(" + data.cmessages + ")");
+        }
+      }
+    };
+
+    
+  </script>
+
+
+      <p class="hidden">
+        <a href="#nav" title="Přejít na navigaci">navigace</a> |
+        <a href="#foot" title="Přejít na zápatí">zápatí</a>
+      </p>
+
+      <a id="cnt" title="Obsah"></a>
+      <div id="content-first">
+
+                  <div class="breadcrumb">
+            <a href="/">hlavní stránka</a> &#187;
+                                                            <a href="contract_index.html">veřejné zakázky</a> &#187;
+                                                                                          <a href="contract_display_1223.html">Bratislavská 210/26,28 - rekonstrukce domu</a> &#187;
+                                                                        <i>detail veřejné zakázky</i>
+                          
+          </div>
+        
+        
+        
+
+
+        
+
+
+        
+
+
+        
+
+
+
+        
+        
+
+
+
+                
+        <div class="modalWindow" id="modalWindow_logout_alert" class="noprint">
+          <div class="page_shade"></div>
+          <div class="dialog">
+            <div class="dialog_window" id="dialog_window_logout_alert">
+              <div class="dialog_handle">
+                <div class="dialog_title" id="div_title_logout_alert">Bezpečnostní upozornění</div>
+                <div class="dialog_close" title="Zavřít" onclick="hideModalWindow('modalWindow_logout_alert');">x</div>
+              </div>
+              <div class="dialog_body" id="div_head_logout_alert">
+                <h4>Blíží se konec Vašeho sezení. Pokud neprovedete v následující minutě žádnou akci, budete automaticky odhlášen(a).</h4><br /><br />
+                <input type="submit" class="submit" name="prolong" title="Prodloužit sezení" value="Prodloužit sezení" onclick="prolongSession('9eadea12b32441edd1f6d8502f90b498');"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        
+
+        
+<div class="modalWindow" id="modalWindow" class="noprint">
+  <div class="page_shade"></div>
+  <div class="dialog">
+    <div class="dialog_window">
+      <div class="dialog_handle">
+        <div class="dialog_title" id="modalWindow_title"></div>
+        <div class="dialog_close" id="dialog_close_button" title="Zavřít (Esc)" onclick="return modalWindowHide();">x</div>
+      </div>
+      <div class="dialog_body" id="modalWindow_head" onchange="modalWindowResizeByContent();"></div>
+    </div>
+  </div>
+</div>
+
+        <div id="centerBlock"><div class="contract">
+
+
+
+  
+  <h2 class="left">
+                Veřejná zakázka: Bratislavská 210/26,28 - rekonstrukce domu
+      </h2>
+
+      
+                                                
+    
+              
+                                                                    
+  <script type="text/javascript">
+
+  function change_display(name) {
+    var action = '';
+    if ($('#body_'+name).css('display') === 'none') {
+      $('#body_'+name).show();
+      action = 'open';
+    } else {
+      $('#body_'+name).hide();
+      action = 'close';
+    }
+
+    var requestUrl = 'index.php?' + 'm=contract&a=display&id=1223&blocks=1&' + action + '=' + name;
+
+    $.ajax({
+      type: 'get',
+      url: requestUrl
+    });
+
+    return false;
+  }
+
+</script>
+
+  <h3 class="block cleaner " id="head_info">
+    <a id="a_info" class="revealed" href="?close=info" onclick="change_display('info'); if ($('#body_info').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Informace o veřejné zakázce</a>
+  </h3>
+  <div class="block" id="body_info" style="display: block">
+    
+  
+
+      <fieldset id="contract-status">
+  <legend>fáze zadávacího řízení</legend>
+  <b>Zadáno</b><br />
+  Zakázka byla zadána.<br />
+
+        </fieldset>
+DBID: <b>1223</b><br />
+Systémové číslo VZ: <b>P17V00000150</b><br />    Dle zákona: č. 134/2016 Sb.<br />
+  Evidenční číslo ve VVZ: <b>Z2018-002038</b><br />  
+
+      Datum zahájení:
+    <b>
+      19.01.2018
+    </b><br />
+  Žádost o účast podat do: <b>19.02.2018 10:00</b><br />
+      Nabídku podat do:
+    <b>02.05.2018 10:30</b>
+    <br />
+
+
+<div class="cleaner"></div>
+
+  <div class="half">
+  <h4>Název, druh veřejné zakázky a popis předmětu</h4>
+  <ul>
+    <li>Název: <b>Bratislavská 210/26,28 - rekonstrukce domu </b> </li>
+          <li>Druh veřejné zakázky: <b>Stavební práce</b></li>
+              </ul>
+
+      <p>Stručný popis předmětu:<br />Předmětem plnění veřejné zakázky je rekonstrukce domu Bratislavská 210/26, 28. Jedná se o nájemní bytový dům, v rámci rekonstrukce je v objektu navrženo 13 bytových jednotek a dva pronajímatelné nebytové prostory v přízemí objektu. Součástí rekonstrukce je provedení půdní vestavby dvou bytů a přístavba výtahu. <br />
+Podrobný rozsah stavebních prací, které požaduje zadavatel realizovat, je blíže specifikován v PROJEKTU a soupisu prací a ve výkazu výměr</p>
+  
+  <h4>
+      Druh zadávacího řízení, předpokládaná hodnota
+  </h4>
+<ul>
+  <li>
+          Druh řízení:
+        <b>
+      užší řízení
+          </b>
+
+      </li>
+      <li>Režim veřejné zakázky: <b>podlimitní</b></li>
+        <li>Předpokládaná hodnota:
+      <b>
+                  53 829 000 Kč bez DPH
+              </b>
+        </li>
+  </ul>
+  
+</div>
+
+<div class="half">
+  <h4>Zadavatel</h4>
+  <ul>
+    <li>Úřední název: <b>Statutární město Brno, městská část Brno-střed</b></li>
+    <li>IČO: <b>44992785</b></li>
+    <li>Poštovní adresa:<br /><b>Dominikánská ul. 2<br />
+Brno 601 69<br />
+podatelna@brno-stred.cz</b></li>
+        <li>Název odboru: <b>Odbor investiční a správy bytových domů</b></li>
+            <li>Id profilu zadavatele ve VVZ: <b>60053503</b></li>
+      </ul>
+
+  <h4>Adresa kontaktního místa</h4>
+      <p>
+      Nabídky, resp. žádosti o účast podávat na:<br />
+      S-Invest CZ s.r.o.<br />
+Kaštanová 496/123a<br />
+620 00 Brno
+    </p>
+    </div>
+
+    <div class="cleaner"></div>
+
+
+
+  </div>
+  <h3 class="block cleaner " id="head_doc_zad">
+    <a id="a_doc_zad" class="" href="?open=doc_zad" onclick="change_display('doc_zad'); if ($('#body_doc_zad').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Zadávací dokumentace</a>
+  </h3>
+  <div class="block" id="body_doc_zad" style="display: none">
+    
+
+<p>
+
+<br />
+</p>
+
+<p>Kvalifikační dokumentace není poskytována (resp. je součástí zadávací dokumentace).</p>
+
+
+
+  
+
+<p>Zadávací dokumentace je poskytována elektronicky bez omezení.</p>
+
+
+  <h4 class="cleaner">Zadávací dokumentace - soubory ke stažení</h4>
+  <div class="list">
+  <table>
+                      <tr>
+          <th width="20%">Název</th>
+          <th width="40%">Popis</th>
+          <th width="20%">Jméno souboru</th>
+          <th width="10%">Velikost</th>
+                        </tr>
+      
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4832.html" title="detail dokumentu - Zadávací dokumentace">Zadávací dokumentace</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4832/12803a217c8b7e4659b6b04bfd4ee5fe-01-zd-cistopis-na-profil-rar" title="stáhnout dokument - 01 ZD cistopis na profil.rar">
+                  01 ZD cistopis na profil.rar
+                </a>
+                                            </td>
+        <td>
+                                    7.15 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4833.html" title="detail dokumentu - PD 1">PD 1</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4833/a1eb9d1a57662e592538d4a5abbfbc4c-ab-zpravy-rar" title="stáhnout dokument - AB.ZPRAVY.rar">
+                  AB.ZPRAVY.rar
+                </a>
+                                            </td>
+        <td>
+                                    1.87 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4834.html" title="detail dokumentu - PD 2">PD 2</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4834/777a70faf20a2c7fdc48a09f5d45e6f1-c-situace-stavby-rar" title="stáhnout dokument - C.SITUACE STAVBY.rar">
+                  C.SITUACE STAVBY.rar
+                </a>
+                                            </td>
+        <td>
+                                    1.60 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4835.html" title="detail dokumentu - PD 3-1">PD 3-1</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4835/babd3281702d249ec4c4631ba9d42a69-d1-1asr-rar" title="stáhnout dokument - D1.1ASR.rar">
+                  D1.1ASR.rar
+                </a>
+                                            </td>
+        <td>
+                                    31.24 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4836.html" title="detail dokumentu - PD 3-2">PD 3-2</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4836/f08fb49223b6ce76eea8c728aa68544b-d1-2statika-rar" title="stáhnout dokument - D1.2STATIKA.rar">
+                  D1.2STATIKA.rar
+                </a>
+                                            </td>
+        <td>
+                                    16.22 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4837.html" title="detail dokumentu - PD 3-3">PD 3-3</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4837/418dba80da341fa47a33c4bca10317fb-d1-3pbr-rar" title="stáhnout dokument - D1.3PBR.rar">
+                  D1.3PBR.rar
+                </a>
+                                            </td>
+        <td>
+                                    1.85 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4838.html" title="detail dokumentu - PD 3-4">PD 3-4</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4838/9f21475631acc780acac944748baf815-d1-4-1zti-rar" title="stáhnout dokument - D1.4.1ZTI.rar">
+                  D1.4.1ZTI.rar
+                </a>
+                                            </td>
+        <td>
+                                    3.48 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4839.html" title="detail dokumentu - PD 3-5">PD 3-5</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4839/406ef85f86e29e55ab2573103b3656b5-d1-4-2vzt-rar" title="stáhnout dokument - D1.4.2VZT.rar">
+                  D1.4.2VZT.rar
+                </a>
+                                            </td>
+        <td>
+                                    4.08 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4840.html" title="detail dokumentu - PD 3-6">PD 3-6</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4840/4d201e2b4fd9ffe2bc5da302da8971e2-d1-4-3ut-rar" title="stáhnout dokument - D1.4.3UT.rar">
+                  D1.4.3UT.rar
+                </a>
+                                            </td>
+        <td>
+                                    2.66 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4841.html" title="detail dokumentu - PD 3-7">PD 3-7</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4841/8eb147ce5784d35f6b886bd97a5e1b0e-d1-4-6silnoproud-rar" title="stáhnout dokument - D1.4.6SILNOPROUD.rar">
+                  D1.4.6SILNOPROUD.rar
+                </a>
+                                            </td>
+        <td>
+                                    11.71 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4842.html" title="detail dokumentu - PD 3-8">PD 3-8</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4842/bfd24341571a1dc80816d52a67628894-d1-4-7slaboproud-rar" title="stáhnout dokument - D1.4.7SLABOPROUD.rar">
+                  D1.4.7SLABOPROUD.rar
+                </a>
+                                            </td>
+        <td>
+                                    2.26 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4843.html" title="detail dokumentu - PD 4">PD 4</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4843/dff37961fb696eae8217fa4999a20dcf-d-d2-ps-01-vymenikova-stanice-rar" title="stáhnout dokument - D.D2.PS 01 VYMENIKOVA STANICE.rar">
+                  D.D2.PS 01 VYMENIKOVA STANICE.rar
+                </a>
+                                            </td>
+        <td>
+                                    2.25 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4844.html" title="detail dokumentu - PD 5">PD 5</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4844/f036e8bd46bfce18e88bbfd5aa312092-d-so02-so03-pripojky-kanal-voda-rar" title="stáhnout dokument - D.SO02 SO03 PRIPOJKY KANAL VODA.rar">
+                  D.SO02 SO03 PRIPOJKY KANAL VODA.rar
+                </a>
+                                            </td>
+        <td>
+                                    2.42 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4845.html" title="detail dokumentu - PD 6">PD 6</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4845/b9a888854c764ee5d15dfd17b4e8491a-d-so05-sadove-upravy-rar" title="stáhnout dokument - D.SO05 SADOVE UPRAVY.rar">
+                  D.SO05 SADOVE UPRAVY.rar
+                </a>
+                                            </td>
+        <td>
+                                    2.63 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4846.html" title="detail dokumentu - VV">VV</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/archive.png" alt="Archiv RAR" title="Archiv RAR" />
+                <a href="document_4846/995aff4d3af00dd01d572a637d63dd70-vykazy-vymer-rar" title="stáhnout dokument - VYKAZY VYMER.rar">
+                  VYKAZY VYMER.rar
+                </a>
+                                            </td>
+        <td>
+                                    5.12 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4848.html" title="detail dokumentu - Vysvětlení ZD (1)">Vysvětlení ZD (1)</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4848/4f4b3bd40d32e4f82d1c3b5dc4bd60e5-01-1-vysvetleni-zd-1-pdf" title="stáhnout dokument - 01-1 Vysvetleni ZD 1.pdf">
+                  01-1 Vysvetleni ZD 1.pdf
+                </a>
+                                            </td>
+        <td>
+                                    408.45 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4875.html" title="detail dokumentu - Vysvětlení ZD (2)">Vysvětlení ZD (2)</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4875/396a8f5a7c93292f1f0ee3725e35807e-01-2-vysve-tleni-zd-2-bratislavska-pdf" title="stáhnout dokument - 01-2 Vysvětlení ZD 2 -Bratislavská.pdf">
+                  01-2 Vysvětlení ZD 2 -Bratislavská.pdf
+                </a>
+                                            </td>
+        <td>
+                                    526.30 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4935.html" title="detail dokumentu - Vysvětlení ZD (3)">Vysvětlení ZD (3)</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4935/42ab6bece6b4a6fe85887b71985a597c-01-3-vysvetleni-zd-3-pdf" title="stáhnout dokument - 01-3 Vysvetleni ZD 3.pdf">
+                  01-3 Vysvetleni ZD 3.pdf
+                </a>
+                                            </td>
+        <td>
+                                    366.97 KB
+                              </td>
+                      </tr>
+    
+  </table>
+</div>
+
+  <script type="text/javascript">
+
+    var documentTable = {
+
+      documentAppendSign: function(documentId, signMethod) {
+        var url = '/document_appendsign_' + documentId + '.html';
+        url += '?signMethod=' + signMethod;
+        if (signMethod == '2') {
+          $("#modalWindow").on(EVENT_MODAL_WINDOW_HIDE, function () { // zruseni cyklicke kontroly nacteni podepsanych dat
+            clearTimeout(signerApp.timeoutId);
+          });
+        }
+        modalWindowSmallProcessDataAndShow(url, 'Připojení elektronického podpisu k dokumentu');
+      }
+    };
+
+  </script>
+
+
+  </div>
+  <h3 class="block cleaner " id="head_dd">
+    <a id="a_dd" class="" href="?open=dd" onclick="change_display('dd'); if ($('#body_dd').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Vysvětlení, doplnění, změny zadávací dokumentace</a>
+  </h3>
+  <div class="block" id="body_dd" style="display: none">
+    
+  <div class="list">
+    <table>
+  <thead>
+    <tr>
+      <th>Datum</th>
+      <th>Druh zprávy</th>
+      <th>Odesílatel</th>
+      <th>Předmět</th>
+            <th colspan="2">o.</th>    </tr>
+  </thead>
+  <tbody>
+          <tr class="o">
+        <td>
+          <span title="přečtená zpráva">
+            08.02.2018 14:10
+          </span>
+        </td>
+        <td>
+          vysvětlení, doplnění, změna dokumentace
+                  </td>
+        <td>
+                      Petr Pacal
+                  </td>
+        <td>
+                      <a href="contract_display_inbox_4185.html">
+              Vysvětlení / Doplnění / Změna zadávací dokumentace</a>
+                  </td>
+                          <td title="odpovědět">
+                          &nbsp;
+                      </td>
+          <td title="počet odpovědí">
+                        &nbsp;          </td>
+              </tr>
+          <tr class="e">
+        <td>
+          <span title="přečtená zpráva">
+            29.01.2018 11:00
+          </span>
+        </td>
+        <td>
+          vysvětlení, doplnění, změna dokumentace
+                  </td>
+        <td>
+                      Eliška Kudělková
+                  </td>
+        <td>
+                      <a href="contract_display_inbox_4157.html">
+              Vysvětlení / Doplnění / Změna zadávací dokumentace</a>
+                  </td>
+                          <td title="odpovědět">
+                          &nbsp;
+                      </td>
+          <td title="počet odpovědí">
+                        &nbsp;          </td>
+              </tr>
+          <tr class="o">
+        <td>
+          <span title="přečtená zpráva">
+            19.01.2018 13:14
+          </span>
+        </td>
+        <td>
+          vysvětlení, doplnění, změna dokumentace
+                  </td>
+        <td>
+                      Eliška Kudělková
+                  </td>
+        <td>
+                      <a href="contract_display_inbox_4147.html">
+              Vysvětlení / Doplnění / Změna zadávací dokumentace</a>
+                  </td>
+                          <td title="odpovědět">
+                          &nbsp;
+                      </td>
+          <td title="počet odpovědí">
+                        &nbsp;          </td>
+              </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+
+  </div>
+  <h3 class="block cleaner " id="head_doc_pub">
+    <a id="a_doc_pub" class="" href="?open=doc_pub" onclick="change_display('doc_pub'); if ($('#body_doc_pub').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Veřejné dokumenty</a>
+  </h3>
+  <div class="block" id="body_doc_pub" style="display: none">
+    
+
+<div class="cleaner">&nbsp;</div>
+
+  <h4>Přehled veřejných dokumentů</h4>
+  <div class="list">
+  <table>
+                      <tr>
+          <th width="20%">Název</th>
+          <th width="40%">Popis</th>
+          <th width="20%">Jméno souboru</th>
+          <th width="10%">Velikost</th>
+                        </tr>
+      
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4847.html" title="detail dokumentu - Vysvětlení ZD (1)">Vysvětlení ZD (1)</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4847/cd677f247381d3bfc8e613888b4a6616-01-1-vysvetleni-zd-1-pdf" title="stáhnout dokument - 01-1 Vysvetleni ZD 1.pdf">
+                  01-1 Vysvetleni ZD 1.pdf
+                </a>
+                                            </td>
+        <td>
+                                    408.45 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4874.html" title="detail dokumentu - Vysvětlení ZD (2)">Vysvětlení ZD (2)</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4874/ce8a1119c94a0796001227ca3cf24cf8-01-2-vysve-tleni-zd-2-bratislavska-pdf" title="stáhnout dokument - 01-2 Vysvětlení ZD 2 -Bratislavská.pdf">
+                  01-2 Vysvětlení ZD 2 -Bratislavská.pdf
+                </a>
+                                            </td>
+        <td>
+                                    526.30 KB
+                              </td>
+                      </tr>
+          
+                      <tr>
+          <td colspan="6"><h5>Písemná zpráva zadavatele</h5></td>
+        </tr>
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_5228.html" title="detail dokumentu - Písemná zpráva zadavatele">Písemná zpráva zadavatele</a>
+                  </td>
+        <td>
+          Písemná zpráva zadavatele
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_5228/3d48e7fab09d924a7f50bbb2ad55db73-pisemna-zprava-zadavatele-pdf" title="stáhnout dokument - Pisemna zprava zadavatele.pdf">
+                  Pisemna zprava zadavatele.pdf
+                </a>
+                                            </td>
+        <td>
+                                    566.33 KB
+                              </td>
+                      </tr>
+          
+                      <tr>
+          <td colspan="6"><h5>Smlouva, její změny a dodatky</h5></td>
+        </tr>
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_5234.html" title="detail dokumentu - Smlouva o dílo">Smlouva o dílo</a>
+                  </td>
+        <td>
+          
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_5234/87c0d2258c336dcd787ace92b09da9e5-ezak_sod_vc-priloh-pdf" title="stáhnout dokument - ezak_SOD_vc priloh.pdf">
+                  ezak_SOD_vc priloh.pdf
+                </a>
+                                            </td>
+        <td>
+                                    6.75 MB
+                              </td>
+                      </tr>
+    
+  </table>
+</div>
+
+  <script type="text/javascript">
+
+    var documentTable = {
+
+      documentAppendSign: function(documentId, signMethod) {
+        var url = '/document_appendsign_' + documentId + '.html';
+        url += '?signMethod=' + signMethod;
+        if (signMethod == '2') {
+          $("#modalWindow").on(EVENT_MODAL_WINDOW_HIDE, function () { // zruseni cyklicke kontroly nacteni podepsanych dat
+            clearTimeout(signerApp.timeoutId);
+          });
+        }
+        modalWindowSmallProcessDataAndShow(url, 'Připojení elektronického podpisu k dokumentu');
+      }
+    };
+
+  </script>
+
+
+  </div>
+  <h3 class="block cleaner " id="head_forms">
+    <a id="a_forms" class="" href="?open=forms" onclick="change_display('forms'); if ($('#body_forms').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Formuláře</a>
+  </h3>
+  <div class="block" id="body_forms" style="display: none">
+    <div class="list">
+  <table class="width_full">
+    <tr>
+      <th title="vyberte formulář pro porovnání s VZ"><center>?</center></th>
+      <th>Název formuláře</th>
+      <th>Typ</th>
+      <th>Stav</th>
+              <th>Uveřejněno v E-ZAK</th>
+            <th>Uveřejněno ve VVZ</th>
+          </tr>
+          <tr class="o">
+        <td>
+                  </td>
+        <td title="Opravný interní formulář k veřejné zakázce">
+          <a href="https://zakazky.brno-stred.cz/form_display_1203.html" title="zobrazit detail">
+            Opravný interní formulář k veřejné zakázce</a>
+        </td>
+        <td title="Opravný interní formulář k veřejné zakázce">E01</td>
+        <td>
+          uveřejněný
+                  </td>
+
+                  <td>08.02.2018</td>
+        
+        <td>
+                      ---
+                  </td>
+
+              </tr>
+          <tr class="e">
+        <td>
+                  </td>
+        <td title="Opravný interní formulář k veřejné zakázce">
+          <a href="https://zakazky.brno-stred.cz/form_display_1222.html" title="zobrazit detail">
+            Opravný interní formulář k veřejné zakázce</a>
+        </td>
+        <td title="Opravný interní formulář k veřejné zakázce">E01</td>
+        <td>
+          uveřejněný
+                  </td>
+
+                  <td>12.04.2018</td>
+        
+        <td>
+                      ---
+                  </td>
+
+              </tr>
+          <tr class="o">
+        <td>
+                  </td>
+        <td title="Opravný interní formulář k veřejné zakázce">
+          <a href="https://zakazky.brno-stred.cz/form_display_1223.html" title="zobrazit detail">
+            Opravný interní formulář k veřejné zakázce</a>
+        </td>
+        <td title="Opravný interní formulář k veřejné zakázce">E01</td>
+        <td>
+          uveřejněný
+                  </td>
+
+                  <td>13.04.2018</td>
+        
+        <td>
+                      ---
+                  </td>
+
+              </tr>
+    
+  </table>
+  
+
+
+
+<input type="hidden" id="pagerCurrentPage" value="" />
+
+<script type="text/javascript">
+
+  /**
+   * Vrátí aktuální pozici pageru i ve chvíli kliknutí na něj
+   * @returns {int}
+   */
+  function getPagerPage() {
+    return pager.getCurrentPage();
+  }
+
+  $(document).ready(function () {
+    var submitPager = !!'1';
+    if ($('.pager').find('.big').length == 1) { // nastaveni hodnoty dle aktivni stranky
+      $("#pagerCurrentPage").val($('.pager').find('.big').html());
+    }
+    $('.pager a').click(function () { // kliknuti na pager, pretizeni pokud je nastaveno
+      $("#pagerCurrentPage").val(pager.getPageFromUrl(this));
+            return submitPager;
+    });
+  });
+
+  var pager = {
+
+  /**
+   * @returns {int}
+   */
+    getCurrentPage: function() {
+      return $("#pagerCurrentPage").val();
+    },
+    
+    /**
+     * @param {Object} aElement
+     * @returns {Number|parse.params.page}
+     */
+    getPageFromUrl: function(aElement) {
+      var parse = parseURL($(aElement).attr('href'));
+      var page = parse.params.page;
+      if (!isNaN(page)) {
+        return page;
+      }
+      return 1;
+    }
+  };
+
+</script>
+
+</div>
+
+
+  </div>
+  <h3 class="block cleaner " id="head_urls">
+    <a id="a_urls" class="" href="?open=urls" onclick="change_display('urls'); if ($('#body_urls').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">URL odkazy</a>
+  </h3>
+  <div class="block" id="body_urls" style="display: none">
+    <div class="list cleaner">
+      <table style="width: 100%;">
+      <tr>
+        <th>Název URL odkazu</th>
+        <th>URL adresa</th>
+              </tr>
+              <tr class="o">
+          <td>URL této VZ v E-ZAK</td>
+          <td><a href="https://zakazky.brno-stred.cz/vz00001223">https://zakazky.brno-stred.cz/vz00001223</a></td>
+                  </tr>
+      
+    </table>
+    
+
+
+
+<input type="hidden" id="pagerCurrentPage" value="" />
+
+<script type="text/javascript">
+
+  /**
+   * Vrátí aktuální pozici pageru i ve chvíli kliknutí na něj
+   * @returns {int}
+   */
+  function getPagerPage() {
+    return pager.getCurrentPage();
+  }
+
+  $(document).ready(function () {
+    var submitPager = !!'1';
+    if ($('.pager').find('.big').length == 1) { // nastaveni hodnoty dle aktivni stranky
+      $("#pagerCurrentPage").val($('.pager').find('.big').html());
+    }
+    $('.pager a').click(function () { // kliknuti na pager, pretizeni pokud je nastaveno
+      $("#pagerCurrentPage").val(pager.getPageFromUrl(this));
+            return submitPager;
+    });
+  });
+
+  var pager = {
+
+  /**
+   * @returns {int}
+   */
+    getCurrentPage: function() {
+      return $("#pagerCurrentPage").val();
+    },
+    
+    /**
+     * @param {Object} aElement
+     * @returns {Number|parse.params.page}
+     */
+    getPageFromUrl: function(aElement) {
+      var parse = parseURL($(aElement).attr('href'));
+      var page = parse.params.page;
+      if (!isNaN(page)) {
+        return page;
+      }
+      return 1;
+    }
+  };
+
+</script>
+
+  </div>
+  </div>
+  <h3 class="block cleaner " id="head_performance">
+    <a id="a_performance" class="" href="?open=performance" onclick="change_display('performance'); if ($('#body_performance').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Plnění smlouvy na základě veřejné zakázky</a>
+  </h3>
+  <div class="block" id="body_performance" style="display: none">
+    
+  <h4>Seznam účastníků</h4>
+      <div class="list">
+    <table>
+      <tr>
+        <th>Název</th>
+        <th>IČO</th>
+        <th>Země sídla/podnikání/bydliště</th>
+        <th>Nabídková cena<br />v Kč bez DPH</th>
+        <th>Nabídková cena<br />v Kč vč. DPH</th>
+                  <th>Vyloučen</th>
+                      </tr>
+              <tr class="o">
+          <td>
+                        IMOS Brno, a.s.
+                                  </td>
+          <td>
+            25322257
+          </td>
+          <td>
+            Česká republika
+          </td>
+          <td class="right">
+                          neuvedeno
+                      </td>
+          <td class="right">
+                          neuvedeno
+                      </td>
+                      <td>
+                              Ne
+                          </td>
+                            </tr>
+              <tr class="e">
+          <td>
+                        METROSTAV a.s.
+                                  </td>
+          <td>
+            00014915
+          </td>
+          <td>
+            Česká republika
+          </td>
+          <td class="right">
+                          neuvedeno
+                      </td>
+          <td class="right">
+                          neuvedeno
+                      </td>
+                      <td>
+                              Ne
+                          </td>
+                            </tr>
+      
+    </table>
+    </div>
+  
+
+  <br />
+<h4>Vybraný dodavatel</h4>
+  <div class="list">
+    <table>
+    <tr>
+      <th>Název</th>
+      <th>IČO</th>
+      <th>Země sídla/podnikání/bydliště</th>
+      <th>Smluvní cena<br />v Kč bez DPH</th>
+      <th>Smluvní cena<br />v Kč vč. DPH</th>
+          </tr>
+          <tr class="o">
+        <td>
+                    IMOS Brno, a.s.
+                            </td>
+        <td>25322257</td>
+        <td>Česká republika</td>
+        <td class="right">
+                      59&nbsp;481&nbsp;537,00
+                  </td>
+        <td class="right">
+                      68&nbsp;417&nbsp;979,00
+                  </td>
+              </tr>
+    
+  </table>
+
+        
+  </div>
+
+
+<br />
+  <br />
+<h4>Seznam poddodavatelů vybraného dodavatele</h4>
+  Není evidován  žádný poddodavatel.
+
+
+<br /><br />
+  <br />
+<h4>Skutečně uhrazená cena</h4>
+Stav: <b>Probíhá plnění smlouvy</b>
+  <br />
+  Žádný záznam.
+
+
+  </div>
+
+
+</div>
+
+</div>
+        <div id="winConfirmBg" style="display: none;">&nbsp;</div>
+        <div id="winConfirm" style="display: none;"></div>
+        <br /><br />
+      </div>
+
+      <p class="hidden">
+        <a href="#nav" title="Přejít na navigaci">navigace</a> |
+        <a href="#cnt" title="Přejít na obsah [klávesová zkratka Alt+S]">obsah</a>
+      </p>
+
+      <ul id="foot" title="Zápatí">
+        <li>2006 &ndash; 2019 &copy; Statutární město Brno, městská část Brno-střed</li>
+                <li><a href="accessibility.html" title="Odkaz na prohlášení o přístupnosti">Prohlášení o přístupnosti</a></li>
+        <li><a href="cookies.html" title="Informace o používání souborů cookies">Cookies</a></li>
+        <li><a href="manual.html" title="">Manuály</a></li>
+        <li class="last"><a href="http://www.ezak.cz" title="[v novém okně] Informace o E-ZAK" tabindex="704" class="new-window" onclick="window.open(this.href); return false;">QCM - o software</a></li>
+      </ul>
+
+    </div>
+  </div>
+
+  <div style="float: right;" id="calendar-container"></div>
+
+  </body>
+
+
+</html>
+<!-- qcmmon state ok -->

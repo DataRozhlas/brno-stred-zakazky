@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="QCM, s.r.o." />
+    <title>Veřejné zakázky - E-ZAK Brno-střed</title>
+
+    <script type="text/javascript" src="https://zakazky.brno-stred.cz/js/jquery.min.js?4.13.0"></script>
+    <script type="text/javascript">
+      var mainStrings = {
+        ERR_DATA_INSERT_FAILED: 'Nepodařilo se načíst data!',
+        ERR_PROLONG_SESSION_FAILED: 'Nepodařilo se prodloužit sezení, proveďte nějakou akci, jinak dojde k odhlášení!',
+        INFO_END_OF_SESSION: '!!! Blíží se konec Vašeho sezení !!!',
+        CHOSEN_DESELECT: 'odstranit',
+        CHOSEN_NOT_FOUND: 'Nenalezeno',
+        CHOSEN_CHOOSE: 'Vyberte',
+        CHOSEN_ALL_SELECT_TO_RESTRICT: 'Vše, pro omezení vyberte...',
+        WAITING_SUBMIT_DEFAULT_TEXT: 'Probíhá přenos dat',
+        WAITING_LOAD_DEFAULT_TEXT: 'Probíhá načítání dat'
+      };
+    </script>
+    <script type="text/javascript" src="https://zakazky.brno-stred.cz/js/main.js?4.13.0"></script>
+    <script type="text/javascript" src='https://zakazky.brno-stred.cz/js/jquery.titlealert.js?4.13.0'></script>
+    <script type="text/javascript" src='https://zakazky.brno-stred.cz/js/init.js?4.13.0'></script>
+
+
+      <link href="https://zakazky.brno-stred.cz/theme/images/favicon.ico" rel="SHORTCUT ICON" />
+
+      <link rel="stylesheet" href="https://zakazky.brno-stred.cz/theme/styles/main.css?4.13.0" type="text/css" media="screen, projection" />
+
+          <link rel="stylesheet" href="https://zakazky.brno-stred.cz/theme/styles/print.css?4.13.0" type="text/css" media="print" />
+    
+    
+    
+    <link href='https://zakazky.brno-stred.cz/js/qtip2/jquery.qtip.min.css?4.13.0' rel='stylesheet' />
+    <script type="text/javascript" src='https://zakazky.brno-stred.cz/js/qtip2/jquery.qtip.min.js?4.13.0'></script>
+
+    <link href='https://zakazky.brno-stred.cz/js/chosen/chosen.css?4.13.0' rel='stylesheet' />
+    <script type="text/javascript" src='https://zakazky.brno-stred.cz/js/chosen/chosen.jquery.js?4.13.0'></script>
+
+    
+    <script type="text/javascript">
+      initChosens();
+      initFormWaitings();
+      initAutofocusedInputs();
+          initQTip();
+    </script>
+    
+<script type="text/javascript">
+
+  /**
+   * Zobrazí modalbox ve stylu JS alertu
+   *
+   * @param {String} message - musí se předávat oescapované
+   * @param {String} type [MESSAGE_TYPE_WARNING, MESSAGE_TYPE_INFO, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_RECOMMEND]
+   * @param {String} customTitle
+   */
+  function alertModal(message, type, customTitle) {
+    var modalContent = $('  <div>    <div class="modalTitle"></div>    <fieldset>      <div id="modalAlertContent"></div>      <div class="center">        <a href="#" onclick="return modalWindowHide();" class="button-create">OK</a>      </div>    </fieldset>  </div>');
+    switch (type) {
+      case MESSAGE_TYPE_INFO:
+        modalContent.find('fieldset').addClass('info_msg');
+        modalContent.find('.modalTitle').html('Info');
+        break;
+      case MESSAGE_TYPE_ERROR:
+        modalContent.find('fieldset').addClass('err_msg');
+        modalContent.find('.modalTitle').html('Chyba');
+        break;
+      case MESSAGE_TYPE_SUCCESS:
+        modalContent.find('fieldset').addClass('succ_msg');
+        modalContent.find('.modalTitle').html('Info');
+        break;
+      case MESSAGE_TYPE_RECOMMEND:
+        modalContent.find('fieldset').addClass('recommend_msg');
+        modalContent.find('.modalTitle').html('Doporučení');
+        break;
+      default:
+        modalContent.find('fieldset').addClass('warn_msg');
+        modalContent.find('.modalTitle').html('Upozornění');
+        break;
+    }
+    if (typeof customTitle != 'undefined') {
+      modalContent.find('.modalTitle').html(customTitle);
+    }
+    modalContent.find("#modalAlertContent").html(message);
+    modalWindowSetContent(modalContent);
+    return modalWindowSmallestShow();
+  }
+</script>
+
+        <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-29657388-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    
+  </head>
+
+  <body id="brno">
+  <div id="page">
+    <div id="head">
+      <p class="hidden">
+        <a href="#cnt" title="Přejít na obsah [klávesová zkratka Alt+S]" accesskey="s">obsah</a> |
+        <a href="#foot" title="Přejít na zápatí">zápatí</a>
+      </p>
+
+      <a id="nav" title="Navigace"></a>
+      <div id="head-title">
+        <h1><a href="/" title="Statutární město Brno, městská část Brno-střed" tabindex="1"><span id="erb" >Statutární město Brno, městská část Brno-střed</span></a></h1>
+        <a href="http://www.ezak.cz" class="ezak_logo"><span class="hidden">www.ezak.cz</span></a>
+      </div>
+
+      
+
+    </div>
+
+    <div id="body">
+
+        <div id="menu-left">
+
+            <div id="pro-verejnost" class="hmenu">Pro veřejnost</div>
+  <ul class="menu">
+          <li ><a href="profile_index.html" title="přehled profilů zadavatelů">Profily zadavatelů</a></li>
+          <li ><a href="agreement_index.html" title="přehled smluv">Registr smluv</a></li>
+          <li ><a href="registrace_warning.html" title="upozorňování na nové VZ e-mailem">Upozorňování na nové VZ</a></li>
+    
+  </ul>
+
+            <div id="zadavaci-rizeni" class="hmenu">Zadávací řízení</div>
+  <ul class="menu">
+          <li ><a href="advice_index.html" title="přehled předběžných oznámení">Předběžná oznámení</a></li>
+          <li class="active"><a href="contract_index.html" title="přehled veřejných zakázek">Veřejné zakázky</a></li>
+          <li ><a href="contract_search.html" title="rozšířené vyhledávání">Vyhledávání</a></li>
+    
+  </ul>
+
+          
+          
+          
+          
+          
+  <div id="prihlaseni" class="hmenu">Přihlášení</div>
+  <form action="auth_login.html" method="post" enctype="multipart/form-data" class="menu-1">
+    <input type="hidden" name="redirect" value="/contract_display_1146.html" />
+    <div id="login-form">
+      <label for="login-user">Uživatel:</label> <input name="login" id="login-user" type="text" /><br class="cleaner" />
+      <label for="login-passw">Heslo:</label> <input name="password" id="login-passw" type="password" />
+      <input type="submit" id="login-submit" value="OK" />
+              <div id="login-sso-area">
+                                <p>
+              <a id="login-sso" href="/sp/login/contractor/?url=%2Fcontract_display_1146.html" title="přihlášení pomocí služby Single sign-on pro dodavatele">
+                FEN&nbsp;CDD&nbsp;přihlášení
+              </a>
+            </p>
+                  </div>
+            <div class="cleaner"></div>
+    </div>
+  </form>
+
+
+            <div id="registrace" class="hmenu">Registrace</div>
+  <ul class="menu-2">
+    <li>
+      <a title="test nastavení prohlížeče" href="test_index.html">Test nastavení prohlížeče</a>
+    </li>
+    <li>
+      <a title="zapomenuté heslo" href="registrace_forgotpasswd.html">Zapomenuté heslo</a>
+    </li>
+    <li>
+      <a title="registrace dodavatele" href="registrace.html">Registrovat dodavatele</a>
+    </li>
+  </ul>
+
+          
+    
+
+    
+
+    
+
+    
+  </div>
+
+  <script type="text/javascript">
+
+    var menuFunctions = {
+      setUnreadMessagesCounts: function () {
+        $.ajax({
+          type: "POST",
+          url: "message_unreadCounts.html",
+          dataType: "json",
+          async: true,
+          success: function (response) {
+            menuFunctions.setUnreadMessagesData(response);
+          },
+          error: function () {
+            menuFunctions.setUnreadMessagesData({});
+          }
+        });
+      },
+      setUnreadMessagesData: function (data) {
+        var messagesCountElem = $("#messagesIncomingCount");
+        var cMessagesCountElem = $("#cmessagesIncomingCount");
+        if (jQuery.isEmptyObject(data) || typeof data.messages == "undefined" || data.messages == 0) {
+          messagesCountElem.html(null);
+        } else {
+          messagesCountElem.html("(" + data.messages + ")");
+        }
+        if (jQuery.isEmptyObject(data) || typeof data.cmessages == "undefined" || data.cmessages == 0) {
+          cMessagesCountElem.html(null);
+        } else {
+          cMessagesCountElem.html("(" + data.cmessages + ")");
+        }
+      }
+    };
+
+    
+  </script>
+
+
+      <p class="hidden">
+        <a href="#nav" title="Přejít na navigaci">navigace</a> |
+        <a href="#foot" title="Přejít na zápatí">zápatí</a>
+      </p>
+
+      <a id="cnt" title="Obsah"></a>
+      <div id="content-first">
+
+                  <div class="breadcrumb">
+            <a href="/">hlavní stránka</a> &#187;
+                                                            <a href="contract_index.html">veřejné zakázky</a> &#187;
+                                                                                          <a href="contract_display_1146.html">ÚDRŽBA ČISTOTY MÍSTNÍCH KOMUNIKACÍ A OSTATNÍCH PLOCH SPRÁVNÍHO ÚZEMÍ MĚSTSKÉ ČÁSTI BRNO-STŘED - LOKALITA TZV. PŘEDNÁDRAŽNÍ PROSTOR</a> &#187;
+                                                                        <i>detail veřejné zakázky</i>
+                          
+          </div>
+        
+        
+        
+
+
+        
+
+
+        
+
+
+        
+
+
+
+        
+        
+
+
+
+                
+        <div class="modalWindow" id="modalWindow_logout_alert" class="noprint">
+          <div class="page_shade"></div>
+          <div class="dialog">
+            <div class="dialog_window" id="dialog_window_logout_alert">
+              <div class="dialog_handle">
+                <div class="dialog_title" id="div_title_logout_alert">Bezpečnostní upozornění</div>
+                <div class="dialog_close" title="Zavřít" onclick="hideModalWindow('modalWindow_logout_alert');">x</div>
+              </div>
+              <div class="dialog_body" id="div_head_logout_alert">
+                <h4>Blíží se konec Vašeho sezení. Pokud neprovedete v následující minutě žádnou akci, budete automaticky odhlášen(a).</h4><br /><br />
+                <input type="submit" class="submit" name="prolong" title="Prodloužit sezení" value="Prodloužit sezení" onclick="prolongSession('7e26d288ea3dc5a6cee9088fbddb57ae');"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        
+
+        
+<div class="modalWindow" id="modalWindow" class="noprint">
+  <div class="page_shade"></div>
+  <div class="dialog">
+    <div class="dialog_window">
+      <div class="dialog_handle">
+        <div class="dialog_title" id="modalWindow_title"></div>
+        <div class="dialog_close" id="dialog_close_button" title="Zavřít (Esc)" onclick="return modalWindowHide();">x</div>
+      </div>
+      <div class="dialog_body" id="modalWindow_head" onchange="modalWindowResizeByContent();"></div>
+    </div>
+  </div>
+</div>
+
+        <div id="centerBlock"><div class="contract">
+
+
+
+  
+  <h2 class="left">
+                Veřejná zakázka: ÚDRŽBA ČISTOTY MÍSTNÍCH KOMUNIKACÍ A OSTATNÍCH PLOCH SPRÁVNÍHO ÚZEMÍ MĚSTSKÉ ČÁSTI BRNO-STŘED - LOKALITA TZV. PŘEDNÁDRAŽNÍ PROSTOR
+      </h2>
+
+      
+                                                
+    
+              
+                                                                    
+  <script type="text/javascript">
+
+  function change_display(name) {
+    var action = '';
+    if ($('#body_'+name).css('display') === 'none') {
+      $('#body_'+name).show();
+      action = 'open';
+    } else {
+      $('#body_'+name).hide();
+      action = 'close';
+    }
+
+    var requestUrl = 'index.php?' + 'm=contract&a=display&id=1146&blocks=1&' + action + '=' + name;
+
+    $.ajax({
+      type: 'get',
+      url: requestUrl
+    });
+
+    return false;
+  }
+
+</script>
+
+  <h3 class="block cleaner " id="head_info">
+    <a id="a_info" class="revealed" href="?close=info" onclick="change_display('info'); if ($('#body_info').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Informace o veřejné zakázce</a>
+  </h3>
+  <div class="block" id="body_info" style="display: block">
+    
+  
+
+      <fieldset id="contract-status">
+  <legend>fáze zadávacího řízení</legend>
+  <b>Zadáno</b><br />
+  Zakázka byla zadána.<br />
+
+        </fieldset>
+DBID: <b>1146</b><br />
+Systémové číslo VZ: <b>P17V00000073</b><br />Evidenční číslo zadavatele: <b>60053503</b><br />    Dle zákona: č. 134/2016 Sb.<br />
+    
+
+      Datum zahájení:
+    <b>
+      08.06.2017
+    </b><br />
+      Nabídku podat do:
+    <b>17.07.2017 14:00</b>
+    <br />
+
+
+<div class="cleaner"></div>
+
+  <div class="half">
+  <h4>Název, druh veřejné zakázky a popis předmětu</h4>
+  <ul>
+    <li>Název: <b>ÚDRŽBA ČISTOTY MÍSTNÍCH KOMUNIKACÍ A OSTATNÍCH PLOCH SPRÁVNÍHO ÚZEMÍ MĚSTSKÉ ČÁSTI BRNO-STŘED - LOKALITA TZV. PŘEDNÁDRAŽNÍ PROSTOR </b> </li>
+          <li>Druh veřejné zakázky: <b>Služby</b></li>
+              </ul>
+
+      <p>Stručný popis předmětu:<br />Zabezpečení nepřetržitého úklidu tzv. přednádražního prostoru 7 dní v týdnu a 24 hodin denně, a to kombinací ručního i strojního čištění vč. např. mechanismu využívajícího horkou vodu.  Součástí plnění je i průběžný svoz odpadkových košů a likvidace veškerých odpadů v souvislosti s čištěním vzniklých.</p>
+  
+  <h4>
+      Druh zadávacího řízení, předpokládaná hodnota
+  </h4>
+<ul>
+  <li>
+          Druh řízení:
+        <b>
+      otevřené řízení
+          </b>
+
+      </li>
+      <li>Režim veřejné zakázky: <b>nadlimitní</b></li>
+        <li>Předpokládaná hodnota:
+      <b>
+                  43 700 000 Kč bez DPH
+              </b>
+        </li>
+  </ul>
+  
+</div>
+
+<div class="half">
+  <h4>Zadavatel</h4>
+  <ul>
+    <li>Úřední název: <b>Statutární město Brno, městská část Brno-střed</b></li>
+    <li>IČO: <b>44992785</b></li>
+    <li>Poštovní adresa:<br /><b>Dominikánská ul. 2<br />
+Brno 601 69<br />
+podatelna@brno-stred.cz</b></li>
+        <li>Název odboru: <b>Odbor životního prostředí</b></li>
+            <li>Id profilu zadavatele ve VVZ: <b>60053503</b></li>
+      </ul>
+
+  <h4>Adresa kontaktního místa</h4>
+      <p>
+      Nabídky, resp. žádosti o účast podávat na:<br />
+      ikis, s.r.o.<br />
+Kaštanová 496/123a<br />
+620 00 Brno
+    </p>
+        <h4>Kontakt</h4>
+    <p>
+      <script type="text/javascript">
+        Rot13.write('Vat. Znegva Švzrx, Wvgxn Nagbšbiá<oe />vxvf@vxvf.pm<oe />+ 420 539 002 898<oe />');
+      </script>
+    </p>
+  </div>
+
+    <div class="cleaner"></div>
+
+
+
+  </div>
+  <h3 class="block cleaner " id="head_doc_zad">
+    <a id="a_doc_zad" class="" href="?open=doc_zad" onclick="change_display('doc_zad'); if ($('#body_doc_zad').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Zadávací dokumentace</a>
+  </h3>
+  <div class="block" id="body_doc_zad" style="display: none">
+    
+
+<p>
+
+<br />
+</p>
+
+<p>Kvalifikační dokumentace je poskytována elektronicky bez omezení.</p>
+
+
+
+      <h4 class="cleaner">Kvalifikační dokumentace - soubory ke stažení</h4>
+    <div class="list">
+  <table>
+                      <tr>
+          <th width="20%">Název</th>
+          <th width="40%">Popis</th>
+          <th width="20%">Jméno souboru</th>
+          <th width="10%">Velikost</th>
+                        </tr>
+      
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4195.html" title="detail dokumentu - POŽADAVKY ZADAVATELE NA KVALIFIKACI">POŽADAVKY ZADAVATELE NA KVALIFIKACI</a>
+                  </td>
+        <td>
+          Prokázání základní a profesní způsobilosti, ekonomické a technické  <br />
+kvalifikace.
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4195/70790c7c466b5ebfadba842e89e2bcd2-02-umc-bs-prednadrazi-pzk-podepsane-pdf" title="stáhnout dokument - 02 UMC BS prednadrazi - PZK - podepsané.pdf">
+                  02 UMC BS prednadrazi - PZK - podepsané.pdf
+                </a>
+                                            </td>
+        <td>
+                                    257.28 KB
+                              </td>
+                      </tr>
+    
+  </table>
+</div>
+
+  <script type="text/javascript">
+
+    var documentTable = {
+
+      documentAppendSign: function(documentId, signMethod) {
+        var url = '/document_appendsign_' + documentId + '.html';
+        url += '?signMethod=' + signMethod;
+        if (signMethod == '2') {
+          $("#modalWindow").on(EVENT_MODAL_WINDOW_HIDE, function () { // zruseni cyklicke kontroly nacteni podepsanych dat
+            clearTimeout(signerApp.timeoutId);
+          });
+        }
+        modalWindowSmallProcessDataAndShow(url, 'Připojení elektronického podpisu k dokumentu');
+      }
+    };
+
+  </script>
+  
+
+<p>Zadávací dokumentace je poskytována elektronicky bez omezení.</p>
+
+
+  <h4 class="cleaner">Zadávací dokumentace - soubory ke stažení</h4>
+  <div class="list">
+  <table>
+                      <tr>
+          <th width="20%">Název</th>
+          <th width="40%">Popis</th>
+          <th width="20%">Jméno souboru</th>
+          <th width="10%">Velikost</th>
+                        </tr>
+      
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4194.html" title="detail dokumentu - zadávací podmínky">zadávací podmínky</a>
+                  </td>
+        <td>
+          Dokument „Zadávací podmínky“ je součástí zadávací dokumentace a zahrnuje podle ustanovení § 28 odstavec (1) písmeno a) Zákona veškeré zadavatelem stanovené podmínky průběhu zadávacího řízení, účasti v zadávacím řízení, pravidla pro hodnocení nabídek a další podmínky pro uzavření smlouvy na veřejnou zakázku a pro ukončení zadávacího řízení.
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4194/e1079ec1c0ade648cfb3f506ff3d22be-01-umc-bs-prednadrazi-zp-podepsane-pdf" title="stáhnout dokument - 01 UMC BS prednadrazi - ZP - podepsané.pdf">
+                  01 UMC BS prednadrazi - ZP - podepsané.pdf
+                </a>
+                                            </td>
+        <td>
+                                    382.53 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4196.html" title="detail dokumentu - OBCHODNÍ PODMÍNKY">OBCHODNÍ PODMÍNKY</a>
+                  </td>
+        <td>
+          Obchodní podmínky ve formě textu smlouvy obligatorního charakteru.
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4196/d0a443b562e42be0d81b0e0551cd50b4-03-umc-bs-prednadrazi-smlouva-podepsana-pdf" title="stáhnout dokument - 03 UMC BS prednadrazi - Smlouva - podepsaná.pdf">
+                  03 UMC BS prednadrazi - Smlouva - podepsaná.pdf
+                </a>
+                                            </td>
+        <td>
+                                    202.26 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4197.html" title="detail dokumentu - Tabulka č. 1 Krycí list nabídky">Tabulka č. 1 Krycí list nabídky</a>
+                  </td>
+        <td>
+          krycí list nabídky ve formátu .pdf
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4197/3f71597bcaaaf686222e5ccfbc34d761-04-04-umc-bs-prednadrazi-tabulka-1-kln-podepsana-pdf" title="stáhnout dokument - 04 04 UMC BS prednadrazi - tabulka 1 KLN - podepsaná.pdf">
+                  04 04 UMC BS prednadrazi - tabulka 1 KLN - podepsaná.pdf
+                </a>
+                                            </td>
+        <td>
+                                    103.05 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4198.html" title="detail dokumentu - Tabulka č. 1 Krycí list nabídky">Tabulka č. 1 Krycí list nabídky</a>
+                  </td>
+        <td>
+          krycí list nabídky ve formátu .xlsx
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/excel.png" alt="Dokument MS Excel" title="Dokument MS Excel" />
+                <a href="document_4198/327450316afa3e9fd0595fa67294a957-04-umc-bs-prednadrazi-tabulka-1-kln-cistopis-z-18-5-2017-xlsx" title="stáhnout dokument - 04 UMC BS prednadrazi - tabulka 1 KLN - cistopis z 18.5.2017.xlsx">
+                  04 UMC BS prednadrazi - tabulka 1 KLN - cistopis z 18.5.2017.xlsx
+                </a>
+                                            </td>
+        <td>
+                                    23.17 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4199.html" title="detail dokumentu - Tabulka č. 2 SEZNAM DOKLADŮ K PROKÁZÁNÍ KRITÉRIÍ TECHNICKÉ KVALIFIKACE PODLE § 79 ZÁKONA">Tabulka č. 2 SEZNAM DOKLADŮ K PROKÁZÁNÍ KRITÉRIÍ TECHNICKÉ KVALIFIKACE PODLE § 79 ZÁKONA</a>
+                  </td>
+        <td>
+          seznam dokladů k prokázání kritérií technické kvalif. ve formátu .xlsx
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/excel.png" alt="Dokument MS Excel" title="Dokument MS Excel" />
+                <a href="document_4199/0edf8b8847cf55a7e4fdb2c1c7839642-05-umc-bs-prednadrazi-tabulka-2-sd-ktk-cistopis-z-18-52017-xlsx" title="stáhnout dokument - 05 UMC BS prednadrazi - tabulka 2 SD KTK - cistopis z 18.52017.xlsx">
+                  05 UMC BS prednadrazi - tabulka 2 SD KTK - cistopis z 18.52017.xlsx
+                </a>
+                                            </td>
+        <td>
+                                    26.00 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4204.html" title="detail dokumentu - Tabulka č. 2 SEZNAM DOKLADŮ K PROKÁZÁNÍ KRITÉRIÍ TECHNICKÉ KVALIFIKACE PODLE § 79 ZÁKONA">Tabulka č. 2 SEZNAM DOKLADŮ K PROKÁZÁNÍ KRITÉRIÍ TECHNICKÉ KVALIFIKACE PODLE § 79 ZÁKONA</a>
+                  </td>
+        <td>
+          seznam dokladů k prokázání kritérií technické kvalif. ve formátu .pdf
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4204/0b8ca4f8e59daa020ed180352a0dfd71-05-umc-bs-prednadrazi-tabulka-2-sd-ktk-podepsana-pdf" title="stáhnout dokument - 05 UMC BS prednadrazi - tabulka 2 SD KTK - podepsaná.pdf">
+                  05 UMC BS prednadrazi - tabulka 2 SD KTK - podepsaná.pdf
+                </a>
+                                            </td>
+        <td>
+                                    132.79 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4200.html" title="detail dokumentu - Tabulka č. 3 Přehled realizovaných služeb obdobného charakteru">Tabulka č. 3 Přehled realizovaných služeb obdobného charakteru</a>
+                  </td>
+        <td>
+          přehled realizovaných služeb obdobného charakteru ve formátu .xlsx
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/excel.png" alt="Dokument MS Excel" title="Dokument MS Excel" />
+                <a href="document_4200/1b619680792d155c2d2b2481db97c5ae-06-umc-bs-prednadrazi-tabulka-3-reference-cistopis-z-17-5-2017-xlsx" title="stáhnout dokument - 06 UMC BS prednadrazi  - tabulka 3 Reference - cistopis z 17.5.2017.xlsx">
+                  06 UMC BS prednadrazi  - tabulka 3 Reference - cistopis z 17.5.2017.xlsx
+                </a>
+                                            </td>
+        <td>
+                                    23.36 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4201.html" title="detail dokumentu - Tabulka č. 3 Přehled realizovaných služeb obdobného charakteru">Tabulka č. 3 Přehled realizovaných služeb obdobného charakteru</a>
+                  </td>
+        <td>
+          přehled realizovaných služeb obdobného charakteru ve formátu .pdf
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4201/036729fc2470b71ca103f382e27f0b8b-06-umc-bs-prednadrazi-tabulka-3-reference-podepsana-pdf" title="stáhnout dokument - 06 UMC BS prednadrazi - tabulka 3 Reference - podepsaná.pdf">
+                  06 UMC BS prednadrazi - tabulka 3 Reference - podepsaná.pdf
+                </a>
+                                            </td>
+        <td>
+                                    109.67 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4202.html" title="detail dokumentu - mapa přednádražního prostoru">mapa přednádražního prostoru</a>
+                  </td>
+        <td>
+          mapový podklad ve formátu .jpg
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/picture.png" alt="Obrázek JPEG" title="Obrázek JPEG" />
+                <a href="document_4202/f219771a78f332c880685a647da2b9f9-mapa-6-12-2016-katastralni-jpg" title="stáhnout dokument - mapa 6 12 2016 katastralni.jpg">
+                  mapa 6 12 2016 katastralni.jpg
+                </a>
+                                            </td>
+        <td>
+                                    447.64 KB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4203.html" title="detail dokumentu - mapa přednádražního prostoru">mapa přednádražního prostoru</a>
+                  </td>
+        <td>
+          mapový podklad letecký ve formátu .jpg
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/picture.png" alt="Obrázek JPEG" title="Obrázek JPEG" />
+                <a href="document_4203/14ca4bc81a4ed7ac3ee3c19f41873575-mapa-6-12-2016-letecka-jpg" title="stáhnout dokument - mapa 6 12 2016 letecka.jpg">
+                  mapa 6 12 2016 letecka.jpg
+                </a>
+                                            </td>
+        <td>
+                                    784.04 KB
+                              </td>
+                      </tr>
+    
+  </table>
+</div>
+
+  <script type="text/javascript">
+
+    var documentTable = {
+
+      documentAppendSign: function(documentId, signMethod) {
+        var url = '/document_appendsign_' + documentId + '.html';
+        url += '?signMethod=' + signMethod;
+        if (signMethod == '2') {
+          $("#modalWindow").on(EVENT_MODAL_WINDOW_HIDE, function () { // zruseni cyklicke kontroly nacteni podepsanych dat
+            clearTimeout(signerApp.timeoutId);
+          });
+        }
+        modalWindowSmallProcessDataAndShow(url, 'Připojení elektronického podpisu k dokumentu');
+      }
+    };
+
+  </script>
+
+
+  </div>
+  <h3 class="block cleaner " id="head_dd">
+    <a id="a_dd" class="" href="?open=dd" onclick="change_display('dd'); if ($('#body_dd').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Vysvětlení, doplnění, změny zadávací dokumentace</a>
+  </h3>
+  <div class="block" id="body_dd" style="display: none">
+    
+  <p>Žádné vysvětlení, doplnění či změny zadávací dokumentace k zobrazení. Zkontrolujte též blok Zadávací dokumentace.</p>
+
+  </div>
+  <h3 class="block cleaner " id="head_doc_pub">
+    <a id="a_doc_pub" class="" href="?open=doc_pub" onclick="change_display('doc_pub'); if ($('#body_doc_pub').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Veřejné dokumenty</a>
+  </h3>
+  <div class="block" id="body_doc_pub" style="display: none">
+    
+
+<div class="cleaner">&nbsp;</div>
+
+  <h4>Přehled veřejných dokumentů</h4>
+  <div class="list">
+  <table>
+                      <tr>
+          <th width="20%">Název</th>
+          <th width="40%">Popis</th>
+          <th width="20%">Jméno souboru</th>
+          <th width="10%">Velikost</th>
+                        </tr>
+      
+                      <tr>
+          <td colspan="6"><h5>Písemná zpráva zadavatele</h5></td>
+        </tr>
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4569.html" title="detail dokumentu - Písemná zpráva zadavatele">Písemná zpráva zadavatele</a>
+                  </td>
+        <td>
+          Písemná zpráva zadavatele zpracovaná podle ustanovení § 217 zákona č. 134/2016 Sb., o zadávání veřejných zakázek, v platném znění  Dokument PDF
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4569/15443d5850922cacb546c2639c96dd56-pisemna-zprava-zadavatele-umc-bs-prednadrazi-pdf" title="stáhnout dokument - Pisemna zprava zadavatele UMC BS prednadrazi.pdf">
+                  Pisemna zprava zadavatele UMC BS prednadrazi.pdf
+                </a>
+                                            </td>
+        <td>
+                                    127.96 KB
+                              </td>
+                      </tr>
+          
+                      <tr>
+          <td colspan="6"><h5>Smlouva, její změny a dodatky</h5></td>
+        </tr>
+      
+      <tr class="e">
+        <td>
+                      <a href="document_download_4570.html" title="detail dokumentu - smlouva o dílo">smlouva o dílo</a>
+                  </td>
+        <td>
+          smlouva o dílo na úklid přednádražního prostoru od 1. října 2017 na dobu neurčitou
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4570/e875ac063f8da712cf8c07185ed8a95c-smlouva-o-dilo_uklid-prednadrazi-od-1_10_2017-pdf" title="stáhnout dokument - smlouva o dilo_uklid prednadrazi od 1_10_2017.pdf">
+                  smlouva o dilo_uklid prednadrazi od 1_10_2017.pdf
+                </a>
+                                            </td>
+        <td>
+                                    4.71 MB
+                              </td>
+                      </tr>
+          
+      
+      <tr class="o">
+        <td>
+                      <a href="document_download_4572.html" title="detail dokumentu - dodatek č. 1 smlouvy o dílo">dodatek č. 1 smlouvy o dílo</a>
+                  </td>
+        <td>
+          dodatek č. 1 smlouvy o dílo na úklid tzv. přednádražního prostoru od 1.10.2017
+        </td>
+        <td>
+                                                    <img src="https://zakazky.brno-stred.cz/theme/images/icons/mime/acrobat.png" alt="Dokument PDF" title="Dokument PDF" />
+                <a href="document_4572/0717b6af9d20168000fb2ada5e3ce6da-smlouva-o-dilo_dodatek-1_uklid-prednadrazi-od-1_10_2017-pdf" title="stáhnout dokument - smlouva o dilo_dodatek 1_uklid prednadrazi od 1_10_2017.pdf">
+                  smlouva o dilo_dodatek 1_uklid prednadrazi od 1_10_2017.pdf
+                </a>
+                                            </td>
+        <td>
+                                    5.13 MB
+                              </td>
+                      </tr>
+    
+  </table>
+</div>
+
+  <script type="text/javascript">
+
+    var documentTable = {
+
+      documentAppendSign: function(documentId, signMethod) {
+        var url = '/document_appendsign_' + documentId + '.html';
+        url += '?signMethod=' + signMethod;
+        if (signMethod == '2') {
+          $("#modalWindow").on(EVENT_MODAL_WINDOW_HIDE, function () { // zruseni cyklicke kontroly nacteni podepsanych dat
+            clearTimeout(signerApp.timeoutId);
+          });
+        }
+        modalWindowSmallProcessDataAndShow(url, 'Připojení elektronického podpisu k dokumentu');
+      }
+    };
+
+  </script>
+
+
+  </div>
+  <h3 class="block cleaner " id="head_forms">
+    <a id="a_forms" class="" href="?open=forms" onclick="change_display('forms'); if ($('#body_forms').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Formuláře</a>
+  </h3>
+  <div class="block" id="body_forms" style="display: none">
+    <div class="list">
+  Žádné formuláře k zobrazení.
+</div>
+
+
+  </div>
+  <h3 class="block cleaner " id="head_urls">
+    <a id="a_urls" class="" href="?open=urls" onclick="change_display('urls'); if ($('#body_urls').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">URL odkazy</a>
+  </h3>
+  <div class="block" id="body_urls" style="display: none">
+    <div class="list cleaner">
+      <table style="width: 100%;">
+      <tr>
+        <th>Název URL odkazu</th>
+        <th>URL adresa</th>
+              </tr>
+              <tr class="o">
+          <td>URL této VZ v E-ZAK</td>
+          <td><a href="https://zakazky.brno-stred.cz/vz00001146">https://zakazky.brno-stred.cz/vz00001146</a></td>
+                  </tr>
+      
+    </table>
+    
+
+
+
+<input type="hidden" id="pagerCurrentPage" value="" />
+
+<script type="text/javascript">
+
+  /**
+   * Vrátí aktuální pozici pageru i ve chvíli kliknutí na něj
+   * @returns {int}
+   */
+  function getPagerPage() {
+    return pager.getCurrentPage();
+  }
+
+  $(document).ready(function () {
+    var submitPager = !!'1';
+    if ($('.pager').find('.big').length == 1) { // nastaveni hodnoty dle aktivni stranky
+      $("#pagerCurrentPage").val($('.pager').find('.big').html());
+    }
+    $('.pager a').click(function () { // kliknuti na pager, pretizeni pokud je nastaveno
+      $("#pagerCurrentPage").val(pager.getPageFromUrl(this));
+            return submitPager;
+    });
+  });
+
+  var pager = {
+
+  /**
+   * @returns {int}
+   */
+    getCurrentPage: function() {
+      return $("#pagerCurrentPage").val();
+    },
+    
+    /**
+     * @param {Object} aElement
+     * @returns {Number|parse.params.page}
+     */
+    getPageFromUrl: function(aElement) {
+      var parse = parseURL($(aElement).attr('href'));
+      var page = parse.params.page;
+      if (!isNaN(page)) {
+        return page;
+      }
+      return 1;
+    }
+  };
+
+</script>
+
+  </div>
+  </div>
+  <h3 class="block cleaner " id="head_performance">
+    <a id="a_performance" class="" href="?open=performance" onclick="change_display('performance'); if ($('#body_performance').css('display') === 'none') { $(this).removeClass('revealed'); } else { $(this).addClass('revealed'); } return false;">Plnění smlouvy na základě veřejné zakázky</a>
+  </h3>
+  <div class="block" id="body_performance" style="display: none">
+    
+  <h4>Seznam účastníků</h4>
+      <br />
+    Žádný účastník není přiřazen.
+    <br />
+  
+
+  <br />
+<h4>Vybraný dodavatel</h4>
+  <br />
+  Vybraný dodavatel není nastaven.
+  <br />
+
+
+<br />
+  <br />
+<h4>Seznam poddodavatelů vybraného dodavatele</h4>
+  Není evidován  žádný poddodavatel.
+
+
+<br /><br />
+  <br />
+<h4>Skutečně uhrazená cena</h4>
+Stav: <b>Probíhá plnění smlouvy</b>
+  <br />
+  Žádný záznam.
+
+
+  </div>
+
+
+</div>
+
+</div>
+        <div id="winConfirmBg" style="display: none;">&nbsp;</div>
+        <div id="winConfirm" style="display: none;"></div>
+        <br /><br />
+      </div>
+
+      <p class="hidden">
+        <a href="#nav" title="Přejít na navigaci">navigace</a> |
+        <a href="#cnt" title="Přejít na obsah [klávesová zkratka Alt+S]">obsah</a>
+      </p>
+
+      <ul id="foot" title="Zápatí">
+        <li>2006 &ndash; 2019 &copy; Statutární město Brno, městská část Brno-střed</li>
+                <li><a href="accessibility.html" title="Odkaz na prohlášení o přístupnosti">Prohlášení o přístupnosti</a></li>
+        <li><a href="cookies.html" title="Informace o používání souborů cookies">Cookies</a></li>
+        <li><a href="manual.html" title="">Manuály</a></li>
+        <li class="last"><a href="http://www.ezak.cz" title="[v novém okně] Informace o E-ZAK" tabindex="704" class="new-window" onclick="window.open(this.href); return false;">QCM - o software</a></li>
+      </ul>
+
+    </div>
+  </div>
+
+  <div style="float: right;" id="calendar-container"></div>
+
+  </body>
+
+
+</html>
+<!-- qcmmon state ok -->
